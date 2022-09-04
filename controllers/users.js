@@ -1,27 +1,39 @@
-const path = require('path');
-
-const getDataFromFile = require('../helpers/files');
-
-const dataPath = path.join(__dirname, '../data/users.json');
+const Users = require('../models/user');
 
 const getUsers = (req, res) =>
-  getDataFromFile(dataPath)
+  Users.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => res.status(500).send(err));
 
-const getProfile = (req, res) =>
-  getDataFromFile(dataPath)
-    .then((users) => users.find((user) => user._id === req.params.id))
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({
-          message: `There is no user with the id of ${req.params.id}`,
-        });
-      }
-      return res.status(200).send(user);
+const getUserId = (req, res) => {
+  const { id } = req.params;
+  Users.findById(id)
+    .orFail(() => {
+      const error = new Error('No user found with this Id');
+      error.statusCode = 404;
+      throw error;
     })
-    .catch(() =>
-      res.status(500).send({ message: 'Requested resource not found' })
-    );
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ Error: `${err.message}` });
+      } else if (err.statusCode === 404) {
+        res.status(404).send({ Error: `${err.message}` });
+      } else {
+        res.status(500).send({ Error: 'An error has occurred' });
+      }
+    });
+};
 
-module.exports = { getUsers, getProfile };
+const createUser = (req, res) => {
+  const { name, about, avatar } = req.body;
+  Users.create({ name, about, avatar })
+    .then((user) => {
+      res.status(201).send(user);
+    })
+    .catch(() => res.status(500).send({ message: 'Error' }));
+};
+
+module.exports = { getUsers, getUserId, createUser };
