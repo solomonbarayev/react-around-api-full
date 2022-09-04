@@ -2,23 +2,26 @@
 
 ## Overview
 
-This project is built in Node JS and Express JS framework in order to provide server to fetch data for the "travelers app". Full vanilla JS version with fully function frontend can be seen here - [https://solomonbarayev.github.io/web_project_4/]
+This project is built in Node JS, Express JS framework, MongoDB and Mongoose in order to provide server to fetch data for the "travelers app". Full vanilla JS version with fully function frontend can be seen here - [https://solomonbarayev.github.io/web_project_4/]
 
 ## Technologies used:
 
+- Rest API
+- MongoDB
+- Mongoose
 - Node.js
 - Express.js
 - Postman
 
 ## Directories
 
-`/data` — JSON files to temporarily emulate database integration.
+`/models` — schema for users and cards that live in the mongodb
 
 `/routes` — routing files.
 
 `/controllers` — functions to return data requested
 
-`/helpers` — functions that can be used anywhere, in this particular case, the files.js file contains function to read the data from files and return in JSON parsed format.
+`/utils` — functions that can be used anywhere, regex variables, error codes
 
 ## Running the Project
 
