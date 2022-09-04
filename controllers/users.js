@@ -1,30 +1,15 @@
 const Users = require('../models/user');
+const { SERVER_ERROR } = require('../utils/errorCodes');
+const { processUserWithId } = require('../utils/helpers');
 
 const getUsers = (req, res) =>
   Users.find({})
     .then((users) => res.status(200).send(users))
-    .catch((err) => res.status(500).send(err));
+    .catch((err) => res.status(SERVER_ERROR).send(err));
 
 const getUserId = (req, res) => {
   const { id } = req.params;
-  Users.findById(id)
-    .orFail(() => {
-      const error = new Error('No user found with this Id');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ Error: `${err.message}` });
-      } else if (err.statusCode === 404) {
-        res.status(404).send({ Error: `${err.message}` });
-      } else {
-        res.status(500).send({ Error: 'An error has occurred' });
-      }
-    });
+  processUserWithId(req, res, Users.findById(id));
 };
 
 const createUser = (req, res) => {
@@ -33,7 +18,37 @@ const createUser = (req, res) => {
     .then((user) => {
       res.status(201).send(user);
     })
-    .catch(() => res.status(500).send({ message: 'Error' }));
+    .catch(() => res.status(SERVER_ERROR).send({ message: 'Error' }));
 };
 
-module.exports = { getUsers, getUserId, createUser };
+const updateProfile = (req, res) => {
+  const { name, about } = req.body;
+  const { _id } = req.user;
+  processUserWithId(
+    req,
+    res,
+    Users.findByIdAndUpdate(
+      _id,
+      { name, about },
+      { new: true, runValidators: true, upsert: true }
+    )
+  );
+};
+
+const updateAvatar = (req, res) => {
+  const { _id } = req.user;
+  const { avatar } = req.body;
+  processUserWithId(
+    req,
+    res,
+    Users.findByIdAndUpdate(_id, { avatar }, { new: true, runValidators: true })
+  );
+};
+
+module.exports = {
+  getUsers,
+  getUserId,
+  createUser,
+  updateProfile,
+  updateAvatar,
+};
