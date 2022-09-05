@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const usersRoute = require('./routes/users');
