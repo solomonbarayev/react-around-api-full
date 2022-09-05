@@ -1,6 +1,6 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
-const path = require('path');
 const helmet = require('helmet');
 const usersRoute = require('./routes/users');
 const cardsRoute = require('./routes/cards');
@@ -8,13 +8,12 @@ const nonRoute = require('./routes/nonRoute');
 
 const app = express();
 
-const { PORT = 3000 } = process.env;
+const { PORT } = process.env || 3000;
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use(helmet());
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 app.use((req, res, next) => {

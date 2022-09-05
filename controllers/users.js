@@ -30,7 +30,7 @@ const updateProfile = (req, res) => {
     Users.findByIdAndUpdate(
       _id,
       { name, about },
-      { new: true, runValidators: true, upsert: true }
+      { new: true, runValidators: true }
     )
   );
 };
