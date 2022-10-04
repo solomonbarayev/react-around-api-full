@@ -46,6 +46,8 @@ function App() {
   //state for loggedIn
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const [token, setToken] = useState(localStorage.getItem('jwt'));
+
   //state for user data
   const [userData, setUserData] = useState({
     email: 'email@mail.com'
@@ -76,36 +78,32 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!loggedIn) {
-      return;
+    if (token) {
+      api
+        .getUserInfo()
+        .then(user => {
+          setCurrentUser(user);
+        })
+        .catch(console.log);
     }
-    api
-      .getUserInfo()
-      .then(user => {
-        setCurrentUser(user);
-      })
-      .catch(console.log);
-  }, [loggedIn]);
+  }, [token]);
 
   useEffect(() => {
-    if (!loggedIn) {
-      return;
+    if (token) {
+      api
+        .getInitialCards()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(console.log);
     }
-
-    api
-      .getInitialCards()
-      .then(res => {
-        setCards(res);
-      })
-      .catch(console.log);
-  }, [loggedIn]);
+  }, [token]);
 
   //check token
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
+    if (token) {
       auth
-        .checkToken(jwt)
+        .checkToken(token)
         .then(res => {
           if (res._id) {
             setLoggedIn(true);
@@ -267,6 +265,7 @@ function App() {
           setLoggedIn(true);
           setUserData({ email });
           localStorage.setItem('jwt', res.token);
+          setToken(res.token);
           history.push('/');
         }
       })
