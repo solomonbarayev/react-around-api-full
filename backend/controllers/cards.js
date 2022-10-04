@@ -13,6 +13,7 @@ const getCards = (req, res, next) => {
 };
 
 const createCard = (req, res, next) => {
+  console.log(req.user);
   const { name, link } = req.body;
   Cards.create({ name, link, owner: req.user._id })
     .then((card) => res.status(201).send(card))
@@ -43,7 +44,7 @@ const deleteCard = (req, res, next) => {
     .catch(next);
 };
 
-const updateLike = (req, res, method, next) => {
+const updateLike = (req, res, next, method) => {
   const { cardId } = req.params;
   const { _id } = req.user;
   processCardWithId(
@@ -58,9 +59,9 @@ const updateLike = (req, res, method, next) => {
   );
 };
 
-const likeCard = (req, res) => updateLike(req, res, '$addToSet', next);
+const likeCard = (req, res, next) => updateLike(req, res, next, '$addToSet');
 
-const dislikeCard = (req, res) => updateLike(req, res, '$pull', next);
+const dislikeCard = (req, res, next) => updateLike(req, res, next, '$pull');
 
 module.exports = {
   getCards,

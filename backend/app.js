@@ -13,6 +13,7 @@ const {
 const auth = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const app = express();
@@ -20,6 +21,8 @@ const app = express();
 const { PORT } = process.env || 3000;
 
 mongoose.connect(process.env.MONGODB_URI);
+
+app.use(cors());
 
 app.use(helmet());
 

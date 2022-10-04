@@ -1,10 +1,11 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const urlRegex = require('../utils/regex');
 const { ObjectId } = require('mongoose').Types;
 
 const validateURL = (value, helpers) => {
-  if (!validator.isURL(value)) {
-    throw new Error('Invalid URL');
+  if (validator.isURL(value)) {
+    return value;
   }
   return helpers.error('string.uri');
 };
@@ -75,9 +76,23 @@ const validateAvatar = celebrate({
   }),
 });
 
+// const validateObjectId = celebrate({
+//   params: Joi.object().keys({
+//     id: Joi.string()
+//       .required()
+//       .custom((value, helpers) => {
+//         if (ObjectId.isValid(value)) {
+//           return value;
+//         }
+//         return helpers.message('Invalid id');
+//       }),
+//   }),
+// });
+
+// validate the params id
 const validateObjectId = celebrate({
   params: Joi.object().keys({
-    id: Joi.string()
+    cardId: Joi.string()
       .required()
       .custom((value, helpers) => {
         if (ObjectId.isValid(value)) {
@@ -95,10 +110,10 @@ const validateCardBody = celebrate({
       'string.min': 'Name must be at least 2 characters long',
       'string.max': 'Name must be less than 30 characters long',
     }),
-    link: Joi.string()
-      .required()
-      .custom(validateURL)
-      .message('Invalid URL for link'),
+    link: Joi.string().required().custom(validateURL).messages({
+      'string.empty': 'Link is required',
+      'string.uri': 'Invalid URL for card link',
+    }),
   }),
 });
 
