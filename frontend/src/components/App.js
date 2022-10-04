@@ -80,8 +80,9 @@ function App() {
   useEffect(() => {
     if (token) {
       api
-        .getUserInfo()
+        .getUserInfo(token)
         .then(user => {
+          console.log(user);
           setCurrentUser(user);
         })
         .catch(console.log);
@@ -91,7 +92,7 @@ function App() {
   useEffect(() => {
     if (token) {
       api
-        .getInitialCards()
+        .getInitialCards(token)
         .then(res => {
           setCards(res);
         })
@@ -161,7 +162,7 @@ function App() {
   const handleUpdateUser = ({ name, about }) => {
     setIsLoading(true);
     api
-      .setUserInfo({ name, about })
+      .setUserInfo({ name, about }, token)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
@@ -175,7 +176,7 @@ function App() {
   const handleUpdateAvatar = url => {
     setIsLoading(true);
     api
-      .setUserAvatar(url)
+      .setUserAvatar(url, token)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
@@ -189,7 +190,7 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(user => user === currentUser._id);
     api
-      .changeLikeCardStatus(card._id, isLiked)
+      .changeLikeCardStatus(card._id, isLiked, token)
       .then(newCard => {
         setCards(cards =>
           cards.map(currentCard => {
@@ -207,7 +208,7 @@ function App() {
     setIsLoading(true);
     console.log(selectedCard._id);
     api
-      .deleteCard(selectedCard._id)
+      .deleteCard(selectedCard._id, token)
       .then(res => {
         const newCards = cards.filter(
           currentCard => currentCard._id !== selectedCard._id
@@ -225,7 +226,7 @@ function App() {
     setIsLoading(true);
     console.log(card);
     api
-      .createCard(card)
+      .createCard(card, token)
       .then(card => {
         setCards([card, ...cards]);
         closeAllPopups();
