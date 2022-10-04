@@ -23,6 +23,7 @@ const { PORT } = process.env || 3000;
 mongoose.connect(process.env.MONGODB_URI);
 
 app.use(cors());
+app.options('*', cors());
 
 app.use(helmet());
 
