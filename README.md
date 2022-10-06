@@ -18,7 +18,7 @@ This repository contains the full API of "Around the U.S." project that features
 
 ## Features
 
-- ReactJS clientsid
+- ReactJS clientside
 - React Router Dom for Protected Routing for logged in users.
 - NodeJs/ExpressJs serverside
 - MongoDB for DB
@@ -29,18 +29,38 @@ This repository contains the full API of "Around the U.S." project that features
 ## Full Project Functionality
 
 - Upon first visit, users are greeted with Singin page.
+  - If they have not signed up in the past, they can navigate to the Sign Up page to create an account.
+  ![Screen Shot 2022-10-06 at 9 28 08 AM](https://user-images.githubusercontent.com/85166713/194231056-3bdb872c-3370-4a0e-9fd7-72180b520fa7.png)
 
-  - If they have not signed up in the past, they can navigate to the Sing Up page to create an account.
 
 - Once logged in, user will not need to log back in for at least 7 days as that is the JWT token expiration token duration.
+![Screen Shot 2022-10-06 at 9 34 44 AM](https://user-images.githubusercontent.com/85166713/194231163-96aedd73-b3a1-484a-bbb4-c1f7711793f1.png)
 
 - User will be nagivated to Homepage where they will have several options.
   - Edit their Profile name, about, and avatar image.
+ 
+     ![Screen Shot 2022-10-06 at 9 36 33 AM](https://user-images.githubusercontent.com/85166713/194231710-95e8e725-7593-4015-a806-d293c0148069.png)
+     
   - Add their own cards to the collective of cards.
+
+    ![Screen Shot 2022-10-06 at 9 36 44 AM](https://user-images.githubusercontent.com/85166713/194231786-44252708-5754-4080-942b-0542fe6badaa.png)
+
   - View other's added cards.
+
   - Ability to like/dislike other's cards.
+
+    ![Screen Shot 2022-10-06 at 9 37 05 AM (2)](https://user-images.githubusercontent.com/85166713/194231843-8a479e05-46f0-40b6-b78a-01b07f3954ce.png)
+
+
   - Ability to delete user's own cards (Trash bin only appears on cards that the specific logged in user added)
+
   - Zoom in to card images (modal will popup showing larger image resolution upon clicking on the card images.)
+
+    ![Screen Shot 2022-10-06 at 9 36 52 AM](https://user-images.githubusercontent.com/85166713/194231922-53bbb84f-3bbf-483d-89b5-1c0e13dadc70.png)
+
+
+
+
 
 ## Challenges faced throughout sprint:
 
