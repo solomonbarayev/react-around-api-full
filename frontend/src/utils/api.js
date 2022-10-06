@@ -20,7 +20,6 @@ class Api {
   }
 
   getUserInfo(token) {
-    console.log("headers", this._headers);
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         "Content-Type": "application/json",
