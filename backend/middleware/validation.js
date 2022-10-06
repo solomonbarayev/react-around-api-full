@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-const urlRegex = require('../utils/regex');
 const { ObjectId } = require('mongoose').Types;
 
 const validateURL = (value, helpers) => {

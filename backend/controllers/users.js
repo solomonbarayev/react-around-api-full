@@ -1,14 +1,14 @@
-require('dotenv').config();
-const Users = require('../models/user');
-const { SERVER_ERROR } = require('../utils/errorCodes');
-const { processUserWithId } = require('../utils/helpers');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const JWT_SECRET = process.env.JWT_SECRET;
+const Users = require('../models/user');
+
+const { processUserWithId } = require('../utils/helpers');
+
 const UnauthorizedError = require('../errors/Unauthorized-err');
 const BadRequestError = require('../errors/BadRequest-err');
 const ConflictError = require('../errors/Conflict-err');
-const NotFoundError = require('../errors/NotFound-err');
+
+const { JWT_SECRET } = process.env;
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -38,7 +38,13 @@ const createUser = (req, res, next) => {
     })
     // used hashed password to create user
     .then((hash) =>
-      Users.create({ name, about, avatar, email, password: hash })
+      Users.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
     )
     // send user back to client
     .then((user) => res.status(201).send({ data: user }))
@@ -57,12 +63,10 @@ const getUsers = (req, res, next) =>
     .catch(next);
 
 const getCurrentUser = (req, res, next) => {
-  // getUserData(req.user._id, res, next);
   processUserWithId(req, res, Users.findById(req.user._id), next);
 };
 
 const getUserId = (req, res, next) => {
-  // getUserData(req.params.id, res, next);
   processUserWithId(req, res, Users.findById(req.params.id), next);
 };
 

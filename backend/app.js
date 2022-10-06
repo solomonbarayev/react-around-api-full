@@ -2,6 +2,8 @@ const express = require('express');
 require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
+const cors = require('cors');
 const usersRoute = require('./routes/users');
 const cardsRoute = require('./routes/cards');
 const nonRoute = require('./routes/nonRoute');
@@ -12,20 +14,22 @@ const {
 } = require('./middleware/validation');
 const auth = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
-const { errors } = require('celebrate');
-const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+const { limiter } = require('./middleware/limiter');
 
 const app = express();
 
 const { PORT } = process.env || 3000;
+const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(MONGODB_URI);
 
 app.use(cors());
 app.options('*', cors());
 
 app.use(helmet());
+
+app.use(limiter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

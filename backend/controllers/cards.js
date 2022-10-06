@@ -1,7 +1,6 @@
 const NotFoundError = require('../errors/NotFound-err');
 const ForbiddenError = require('../errors/Forbidden-err');
 const Cards = require('../models/card');
-const { BAD_REQUEST_ERROR, SERVER_ERROR } = require('../utils/errorCodes');
 
 const { processCardWithId } = require('../utils/helpers');
 const BadRequestError = require('../errors/BadRequest-err');
@@ -13,7 +12,6 @@ const getCards = (req, res, next) => {
 };
 
 const createCard = (req, res, next) => {
-  console.log(req.user);
   const { name, link } = req.body;
   Cards.create({ name, link, owner: req.user._id })
     .then((card) => res.status(201).send(card))
