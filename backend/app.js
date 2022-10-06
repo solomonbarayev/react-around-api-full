@@ -1,18 +1,10 @@
 const express = require('express');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const { errors } = require('celebrate');
 const cors = require('cors');
-const usersRoute = require('./routes/users');
-const cardsRoute = require('./routes/cards');
-const nonRoute = require('./routes/nonRoute');
-const { createUser, login } = require('./controllers/users');
-const {
-  validateUserBody,
-  validateAuthentication,
-} = require('./middleware/validation');
-const auth = require('./middleware/auth');
+const { errors } = require('celebrate');
+const router = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const { limiter } = require('./middleware/limiter');
@@ -42,14 +34,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signup', validateUserBody, createUser);
-app.post('/signin', validateAuthentication, login);
-
-app.use(auth);
-
-app.use('/users', usersRoute);
-app.use('/cards', cardsRoute);
-app.use('*', nonRoute);
+app.use(router);
 
 app.use(errorLogger);
 // central error handler

@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import ImagePopup from './ImagePopup';
-import api from '../utils/api';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import EditProfilePopup from './EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup';
-import AddPlacePopup from './AddPlacePopup';
-import DeletePopup from './DeletePopup';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
-import Login from './Login';
-import Register from './Register';
-import ProtectedRoute from './ProtectedRoute';
-import InfoTooltip from './InfoTooltip';
-import * as auth from '../utils/auth';
+import React, { useState, useEffect } from "react";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+import ImagePopup from "./ImagePopup";
+import api from "../utils/api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
+import DeletePopup from "./DeletePopup";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import Login from "./Login";
+import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
+import * as auth from "../utils/auth";
 
 function App() {
   //states
@@ -25,11 +25,11 @@ function App() {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
-  const [infoTooltipType, setInfoTooltipType] = useState('');
+  const [infoTooltipType, setInfoTooltipType] = useState("");
 
   const [selectedCard, setSelectedCard] = useState({
-    name: '',
-    link: ''
+    name: "",
+    link: ""
   });
 
   const [cards, setCards] = useState([]);
@@ -46,11 +46,11 @@ function App() {
   //state for loggedIn
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const [token, setToken] = useState(localStorage.getItem('jwt'));
+  const [token, setToken] = useState(localStorage.getItem("jwt"));
 
   //state for user data
   const [userData, setUserData] = useState({
-    email: 'email@mail.com'
+    email: "email@mail.com"
   });
 
   //history hook
@@ -59,21 +59,21 @@ function App() {
   //adding event listener for ESC key and overlay click
   useEffect(() => {
     const closeByEscape = e => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         closeAllPopups();
       }
     };
     const closeByOverlay = e => {
-      if (e.target.classList.contains('popup_opened')) {
+      if (e.target.classList.contains("popup_opened")) {
         closeAllPopups();
       }
     };
-    document.addEventListener('keydown', closeByEscape);
-    document.addEventListener('click', closeByOverlay);
+    document.addEventListener("keydown", closeByEscape);
+    document.addEventListener("click", closeByOverlay);
 
     return () => {
-      document.removeEventListener('keydown', closeByEscape);
-      document.removeEventListener('click', closeByOverlay);
+      document.removeEventListener("keydown", closeByEscape);
+      document.removeEventListener("click", closeByOverlay);
     };
   }, []);
 
@@ -82,7 +82,6 @@ function App() {
       api
         .getUserInfo(token)
         .then(user => {
-          console.log(user);
           setCurrentUser(user);
         })
         .catch(console.log);
@@ -109,12 +108,12 @@ function App() {
           if (res._id) {
             setLoggedIn(true);
             setUserData({ email: res.email });
-            history.push('/');
+            history.push("/");
           }
         })
         .catch(err => {
           console.log(err);
-          history.push('/signin');
+          history.push("/signin");
         })
         .finally(() => {
           setIsCheckingToken(false);
@@ -243,15 +242,15 @@ function App() {
       .register(email, password)
       .then(res => {
         if (res.data._id) {
-          setInfoTooltipType('successful');
-          history.push('/signin');
+          setInfoTooltipType("successful");
+          history.push("/signin");
         } else {
-          setInfoTooltipType('unsuccessful');
+          setInfoTooltipType("unsuccessful");
         }
       })
       .catch(err => {
         console.log(err);
-        setInfoTooltipType('unsuccessful');
+        setInfoTooltipType("unsuccessful");
       })
       .finally(() => {
         setIsInfoTooltipOpen(true);
@@ -265,14 +264,14 @@ function App() {
         if (res.token) {
           setLoggedIn(true);
           setUserData({ email });
-          localStorage.setItem('jwt', res.token);
+          localStorage.setItem("jwt", res.token);
           setToken(res.token);
-          history.push('/');
+          history.push("/");
         }
       })
       .catch(err => {
         console.log(err);
-        setInfoTooltipType('unsuccessful');
+        setInfoTooltipType("unsuccessful");
         setIsInfoTooltipOpen(true);
       })
       .finally(() => {
@@ -282,8 +281,8 @@ function App() {
 
   function handleSignout() {
     setLoggedIn(false);
-    localStorage.removeItem('jwt');
-    history.push('/signin');
+    localStorage.removeItem("jwt");
+    history.push("/signin");
   }
 
   return (
