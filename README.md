@@ -26,6 +26,22 @@ This repository contains the full API of "Around the U.S." project that features
 - Serverside JWT Auth
 - localstorage manipulation to retain logged in user's JWT tokens.
 
+## Full Project Functionality
+
+- Upon first visit, users are greeted with Singin page.
+
+  - If they have not signed up in the past, they can navigate to the Sing Up page to create an account.
+
+- Once logged in, user will not need to log back in for at least 7 days as that is the JWT token expiration token duration.
+
+- User will be nagivated to Homepage where they will have several options.
+  - Edit their Profile name, about, and avatar image.
+  - Add their own cards to the collective of cards.
+  - View other's added cards.
+  - Ability to like/dislike other's cards.
+  - Ability to delete user's own cards (Trash bin only appears on cards that the specific logged in user added)
+  - Zoom in to card images (modal will popup showing larger image resolution upon clicking on the card images.)
+
 ## Challenges faced throughout sprint:
 
 At times the backend return data who's shape was a little different than the way the frontend is was setup. The frontend ajustment was pretty tedious, and had a lot of corrections to make.
