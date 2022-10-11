@@ -1,6 +1,13 @@
 // const BASE_URL = 'https://register.nomoreparties.co';
 // const BASE_URL = "http://localhost:3000";
-const BASE_URL = "https://api.solomon.students.nomoredomainssbs.ru";
+// const BASE_URL = "https://api.solomon.students.nomoredomainssbs.ru";
+
+let node_env = "production";
+
+let BASE_URL =
+  node_env === "production"
+    ? "https://api.solomon.students.nomoredomainssbs.ru"
+    : "http://localhost:3000";
 
 const customFetch = (url, headers) => {
   return fetch(url, headers).then(res =>

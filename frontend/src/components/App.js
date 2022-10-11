@@ -38,7 +38,10 @@ function App() {
   const [isCheckingToken, setIsCheckingToken] = useState(true);
 
   //currentUser state for context
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    name: "Loading...",
+    about: "Loading..."
+  });
 
   //state for loading
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +53,7 @@ function App() {
 
   //state for user data
   const [userData, setUserData] = useState({
-    email: "email@mail.com"
+    email: ""
   });
 
   //history hook
@@ -282,6 +285,10 @@ function App() {
   function handleSignout() {
     setLoggedIn(false);
     localStorage.removeItem("jwt");
+    setCurrentUser({
+      name: "Loading...",
+      about: "Loading..."
+    });
     history.push("/signin");
   }
 

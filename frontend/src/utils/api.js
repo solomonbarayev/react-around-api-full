@@ -97,9 +97,15 @@ class Api {
   }
 }
 
+let node_env = "production";
+
+let baseUrl =
+  node_env === "production"
+    ? "https://api.solomon.students.nomoredomainssbs.ru"
+    : "http://localhost:3000";
+
 const api = new Api({
-  // baseUrl: "http://localhost:3000"
-  baseUrl: "https://api.solomon.students.nomoredomainssbs.ru"
+  baseUrl
 });
 
 export default api;
